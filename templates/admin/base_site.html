@@ -1,0 +1,43 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if subtitle %}
+        {{ subtitle }} |
+    {% endif %}
+    {{ title }} | Satın Alma Otomasyonu
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <link
+        rel="stylesheet"
+        href="{% static 'admin/css/custom_admin.css' %}"
+    >
+{% endblock %}
+
+{% block branding %}
+    <a
+        class="corporate-brand"
+        href="{% url 'admin:index' %}"
+    >
+        <span class="brand-mark">
+            SA
+        </span>
+
+        <span class="brand-text">
+            <strong>Satın Alma Otomasyonu</strong>
+            <small>Yönetim ve ürün kataloğu</small>
+        </span>
+    </a>
+{% endblock %}
+
+{% block nav-global %}
+    <a
+        class="application-link"
+        href="{% url 'requests_app:home' %}"
+    >
+        Form Uygulamasına Git
+    </a>
+{% endblock %} 

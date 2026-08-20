@@ -1,0 +1,232 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Yeni Talep Birleştirmesi</title>
+
+    <style>
+        :root {
+            --primary: #004070;
+            --primary-dark: #003253;
+            --page-bg: #f4f7fa;
+            --border: #d9e2e8;
+            --text-secondary: #667085;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--page-bg);
+            color: #17212b;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        .page-header {
+            padding: 25px 35px;
+            background:
+                linear-gradient(
+                    120deg,
+                    #003b67,
+                    #005184
+                );
+            color: white;
+        }
+
+        .page-header h1 {
+            margin: 0;
+        }
+
+        .page-header p {
+            margin: 7px 0 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .page-container {
+            width: min(900px, calc(100% - 30px));
+            margin: 30px auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .form-card {
+            padding: 27px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            box-shadow:
+                0 10px 28px rgba(15, 23, 42, 0.07);
+        }
+
+        .form-card h2 {
+            margin: 0 0 7px;
+            color: var(--primary-dark);
+        }
+
+        .form-card-description {
+            margin: 0 0 24px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .form-field {
+            margin-bottom: 24px;
+        }
+
+        .form-field > label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 750;
+        }
+
+        .form-field input[type="text"] {
+            width: 100%;
+            min-height: 45px;
+            padding: 10px 12px;
+            border: 1px solid #c6d3dc;
+            border-radius: 8px;
+        }
+
+        .request-options {
+            display: grid;
+            gap: 10px;
+            max-height: 440px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .request-options > div {
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #f8fafc;
+        }
+
+        .request-options label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+        }
+
+        .form-error {
+            margin-top: 7px;
+            color: #991b1b;
+            font-size: 12px;
+        }
+
+        .submit-button {
+            min-height: 44px;
+            padding: 10px 19px;
+            border: none;
+            border-radius: 9px;
+            background: var(--primary);
+            color: white;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="page-header">
+    <h1>Yeni Talep Birleştirmesi</h1>
+
+    <p>
+        Onaylanmış satın alma talep formlarını ürün bazında
+        birleştirin.
+    </p>
+</header>
+
+<main class="page-container">
+
+    <a
+        href="{% url 'requests_app:consolidation_list' %}"
+        class="back-link"
+    >
+        ← Birleştirmelere dön
+    </a>
+
+    <section class="form-card">
+        <h2>Birleştirilecek formları seçin</h2>
+
+        <p class="form-card-description">
+            Aynı dönem veya satın alma sürecine ait onaylanmış
+            formları seçin. Sistem ürünleri SAP kalem koduna göre
+            toplayacaktır.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-field">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+
+                {% for error in form.title.errors %}
+                    <div class="form-error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-field">
+                <label>
+                    {{ form.purchase_requests.label }}
+                </label>
+
+                <div class="request-options">
+                    {{ form.purchase_requests }}
+                </div>
+
+                {% for error in form.purchase_requests.errors %}
+                    <div class="form-error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% for error in form.non_field_errors %}
+                <div class="form-error">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+                Seçilen Talepleri Birleştir
+            </button>
+        </form>
+    </section>
+
+</main>
+
+</body>
+</html>

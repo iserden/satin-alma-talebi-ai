@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    container_name: purchase-request-ai
+
+    ports:
+      - "8001:8001"
+
+    env_file:
+      - .env
+
+    extra_hosts:
+      - "mersapvm01:52.157.244.51"
+
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./media:/app/media
+
+    restart: unless-stopped

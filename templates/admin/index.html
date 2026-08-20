@@ -1,0 +1,115 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block bodyclass %}
+    {{ block.super }} dashboard
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+    <div class="dashboard-welcome">
+        <div>
+            <span class="dashboard-eyebrow">
+                Sistem Yönetimi
+            </span>
+
+            <h1>
+                Satın Alma Yönetim Paneli
+            </h1>
+
+            <p>
+                Ürün kataloğunu, alternatif ürün adlarını ve
+                yüklenen satın alma formlarını buradan yönetebilirsiniz.
+            </p>
+        </div>
+
+        <a
+            class="primary-dashboard-button"
+            href="{% url 'requests_app:home' %}"
+        >
+            Satın Alma Formlarını Aç
+        </a>
+    </div>
+
+    <div class="quick-actions">
+        <a
+            class="quick-action-card"
+            href="{% url 'admin:requests_app_product_add' %}"
+        >
+            <span class="quick-action-icon">
+                +
+            </span>
+
+            <span>
+                <strong>Yeni ürün ekle</strong>
+                <small>SAP kalem kodu ve ürün kartı oluştur</small>
+            </span>
+        </a>
+
+        <a
+            class="quick-action-card"
+            href="{% url 'admin:requests_app_product_changelist' %}"
+        >
+            <span class="quick-action-icon">
+                Ü
+            </span>
+
+            <span>
+                <strong>Ürün kataloğu</strong>
+                <small>Katalogdaki ürünleri görüntüle ve düzenle</small>
+            </span>
+        </a>
+
+        <a
+            class="quick-action-card"
+            href="{% url 'admin:requests_app_productalias_changelist' %}"
+        >
+            <span class="quick-action-icon">
+                A
+            </span>
+
+            <span>
+                <strong>Alternatif adlar</strong>
+                <small>Ürünlerin farklı yazım biçimlerini yönet</small>
+            </span>
+        </a>
+
+        <a
+            class="quick-action-card"
+            href="{% url 'admin:requests_app_purchaserequest_changelist' %}"
+        >
+            <span class="quick-action-icon">
+                F
+            </span>
+
+            <span>
+                <strong>Yüklenen formlar</strong>
+                <small>Satın alma talep kayıtlarını incele</small>
+            </span>
+        </a>
+    </div>
+
+    <section class="dashboard-section">
+        <div class="section-heading">
+            <div>
+                <span class="dashboard-eyebrow">
+                    Yönetim Alanları
+                </span>
+
+                <h2>
+                    Sistem kayıtları
+                </h2>
+            </div>
+        </div>
+
+        {% if app_list %}
+            {% include "admin/app_list.html" with app_list=app_list %}
+        {% else %}
+            <div class="empty-dashboard">
+                Görüntüleyebileceğiniz bir yönetim kaydı bulunmuyor.
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

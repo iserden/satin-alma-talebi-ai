@@ -1,0 +1,22 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+    <li>
+        <a
+            href="{% url 'admin:requests_app_product_download_excel_template' %}"
+        >
+            Excel şablonunu indir
+        </a>
+    </li>
+
+    <li>
+        <a
+            href="{% url 'admin:requests_app_product_import_excel' %}"
+            class="addlink"
+        >
+            Excel’den ürün aktar
+        </a>
+    </li>
+
+    {{ block.super }}
+{% endblock %}

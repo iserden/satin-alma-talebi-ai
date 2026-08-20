@@ -1,0 +1,57 @@
+{
+  "business_name": "Deneme Kafe",
+  "authorized_person": "Ahmet Çakar",
+  "form_date": "2026-07-24",
+  "form_number": "SAT-2026-001",
+  "raw_ocr_text": "Deneme Kafe Ahmet Çakar 24.07.2026 Patates KG 45 20 35 30 25 Domates KG 20 50 35 60 40 Ayran Koli 40 20 50 20 30",
+  "items": [
+    {
+      "row_number": 1,
+      "raw_product_name": "patateş",
+      "product_name": "Patates",
+      "unit": "KG",
+      "week1": 45,
+      "week2": 20,
+      "week3": 35,
+      "week4": 30,
+      "week5": 25,
+      "confidence_score": 0.96
+    },
+    {
+      "row_number": 2,
+      "raw_product_name": "domateş",
+      "product_name": "Domates",
+      "unit": "KG",
+      "week1": 20,
+      "week2": 50,
+      "week3": 35,
+      "week4": 60,
+      "week5": 40,
+      "confidence_score": 0.72
+    },
+    {
+      "row_number": 3,
+      "raw_product_name": "ayran",
+      "product_name": "Ayran",
+      "unit": "KOLİ",
+      "week1": 40,
+      "week2": 20,
+      "week3": 50,
+      "week4": 20,
+      "week5": 30,
+      "confidence_score": 0.93
+    },
+    {
+      "row_number": 4,
+      "raw_product_name": "kıyma",
+      "product_name": "Kıyma",
+      "unit": "KG",
+      "week1": 60,
+      "week2": 35,
+      "week3": null,
+      "week4": 40,
+      "week5": 25,
+      "confidence_score": 0.61
+    }
+  ]
+}

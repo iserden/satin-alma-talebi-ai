@@ -1,0 +1,945 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SAP Gönderim Önizlemesi | {{ batch.title }}
+    </title>
+
+    <style>
+        :root {
+            --primary: #004070;
+            --primary-dark: #003253;
+            --primary-light: #eaf3f8;
+
+            --secondary: #0f766e;
+
+            --page-bg: #f4f7fa;
+            --card-bg: #ffffff;
+
+            --text-main: #17212b;
+            --text-secondary: #667085;
+
+            --border: #d9e2e8;
+
+            --success-bg: #dcfce7;
+            --success-text: #166534;
+
+            --warning-bg: #fef3c7;
+            --warning-text: #92400e;
+
+            --shadow:
+                0 10px 30px rgba(15, 23, 42, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--page-bg);
+            color: var(--text-main);
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .site-header {
+            width: 100%;
+            background:
+                linear-gradient(
+                    120deg,
+                    #003b67,
+                    #005184
+                );
+            box-shadow:
+                0 6px 24px rgba(0, 47, 82, 0.18);
+        }
+
+        .site-header-inner {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+
+            min-height: 124px;
+            padding: 20px 50px;
+        }
+
+        .header-copy {
+            justify-self: start;
+        }
+
+        .header-eyebrow {
+            display: block;
+            margin-bottom: 6px;
+
+            color: rgba(255, 255, 255, 0.72);
+
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-copy h1 {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 27px;
+            font-weight: 780;
+            line-height: 1.2;
+        }
+
+        .header-copy p {
+            margin: 7px 0 0;
+
+            color: rgba(255, 255, 255, 0.8);
+
+            font-size: 14px;
+        }
+
+        .header-logo {
+            display: flex;
+            width: 238px;
+            min-height: 76px;
+            align-items: center;
+            justify-content: center;
+            justify-self: center;
+
+            padding: 10px 18px;
+            border-radius: 15px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 10px 28px rgba(0, 31, 55, 0.22);
+
+            text-decoration: none;
+        }
+
+        .header-logo img {
+            display: block;
+            width: 200px;
+            max-height: 58px;
+            object-fit: contain;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 9px;
+        }
+
+        .header-action-link {
+            display: inline-flex;
+            min-height: 39px;
+            align-items: center;
+            justify-content: center;
+
+            padding: 9px 13px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+
+            color: #ffffff;
+
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .header-action-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .page-container {
+            width: min(1320px, calc(100% - 40px));
+            margin: 28px auto 65px;
+        }
+
+        .page-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            margin-bottom: 18px;
+        }
+
+        .back-link {
+            color: var(--primary);
+
+            font-size: 13px;
+            font-weight: 750;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .preview-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 11px;
+            border-radius: 999px;
+
+            background: var(--warning-bg);
+            color: var(--warning-text);
+
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .preview-badge::before {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+
+            background: currentColor;
+
+            content: "";
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(180px, 1fr));
+
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            padding: 18px 19px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+
+            background: var(--card-bg);
+
+            box-shadow:
+                0 5px 18px rgba(15, 23, 42, 0.045);
+        }
+
+        .summary-label {
+            display: block;
+            margin-bottom: 7px;
+
+            color: var(--text-secondary);
+
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .summary-value {
+            display: block;
+
+            color: var(--primary-dark);
+
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+
+            background: var(--card-bg);
+
+            box-shadow: var(--shadow);
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+
+            padding: 21px 23px 17px;
+            border-bottom: 1px solid #e8edf0;
+        }
+
+        .panel-eyebrow {
+            display: block;
+            margin-bottom: 4px;
+
+            color: var(--secondary);
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .panel-heading h2 {
+            margin: 0;
+
+            color: var(--primary-dark);
+
+            font-size: 20px;
+        }
+
+        .panel-heading p {
+            margin: 6px 0 0;
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .panel-count {
+            padding: 6px 10px;
+            border-radius: 999px;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .date-form {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+
+            padding: 20px 23px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            color: var(--text-secondary);
+
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .date-input {
+            min-height: 40px;
+            padding: 8px 11px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            color: var(--text-main);
+            background: #ffffff;
+
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .date-input:focus {
+            border-color: var(--primary);
+            outline: 3px solid rgba(0, 64, 112, 0.1);
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 40px;
+            align-items: center;
+            justify-content: center;
+
+            padding: 9px 15px;
+            border: 0;
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 750;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            padding: 0 22px 22px;
+        }
+
+        .preview-table {
+            width: 100%;
+            min-width: 800px;
+
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .preview-table thead th {
+            padding: 12px 11px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+
+            background: #edf4f8;
+            color: var(--primary-dark);
+
+            font-size: 10px;
+            font-weight: 800;
+            text-align: left;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .preview-table thead th:first-child {
+            border-left: 1px solid var(--border);
+            border-top-left-radius: 9px;
+        }
+
+        .preview-table thead th:last-child {
+            border-right: 1px solid var(--border);
+            border-top-right-radius: 9px;
+        }
+
+        .preview-table tbody td {
+            padding: 13px 11px;
+            border-bottom: 1px solid #e8edf0;
+
+            color: #344054;
+
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        .preview-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .preview-table thead th:nth-child(3),
+        .preview-table tbody td:nth-child(3) {
+            width: 130px;
+            text-align: center;
+        }
+
+        .preview-table thead th:nth-child(4),
+        .preview-table tbody td:nth-child(4) {
+            width: 120px;
+            text-align: center;
+        }
+
+        .preview-table thead th:nth-child(5),
+        .preview-table tbody td:nth-child(5) {
+            width: 140px;
+            text-align: center;
+        }
+
+        .item-code {
+            color: var(--primary) !important;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .item-name {
+            color: var(--text-main) !important;
+            font-weight: 650;
+        }
+
+        .quantity {
+            font-weight: 800;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .unit-badge,
+        .warehouse-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 5px 8px;
+            border-radius: 6px;
+
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .unit-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .warehouse-badge {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .warning-box {
+            margin: 0 22px 22px;
+            padding: 13px 15px;
+            border: 1px solid #f0ce76;
+            border-radius: 9px;
+
+            background: #fffbeb;
+            color: #7c5b10;
+
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .warning-box strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .messages {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .message {
+            padding: 13px 15px;
+            border: 1px solid transparent;
+            border-radius: 9px;
+
+            font-size: 12px;
+            font-weight: 650;
+            line-height: 1.5;
+        }
+
+        .message-success {
+            border-color: #86d6a3;
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .message-error {
+            border-color: #f1a5a5;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .send-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            margin: 0 22px 22px;
+            padding: 18px;
+
+            border: 1px solid #b8d5e4;
+            border-radius: 11px;
+
+            background: #f4f9fc;
+        }
+
+        .send-area-copy strong {
+            display: block;
+            margin-bottom: 5px;
+
+            color: var(--primary-dark);
+
+            font-size: 14px;
+        }
+
+        .send-area-copy span {
+            color: var(--text-secondary);
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .button-success {
+            flex-shrink: 0;
+
+            background: #15803d;
+            color: #ffffff;
+        }
+
+        .button-success:hover {
+            background: #166534;
+        }
+
+        .sap-result {
+            margin: 0 22px 22px;
+            padding: 16px;
+
+            border: 1px solid #86d6a3;
+            border-radius: 10px;
+
+            background: var(--success-bg);
+            color: var(--success-text);
+
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .sap-result strong {
+            display: block;
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .site-header-inner {
+                grid-template-columns: 1fr;
+                gap: 16px;
+
+                padding: 22px 18px;
+
+                text-align: center;
+            }
+
+            .header-copy,
+            .header-logo,
+            .header-actions {
+                justify-self: center;
+            }
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, minmax(160px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page-container {
+                width: min(100% - 20px, 1320px);
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-toolbar,
+            .date-form,
+            .send-area {
+                align-items: stretch;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="site-header-inner">
+
+        <div class="header-copy">
+            <span class="header-eyebrow">
+                SAP Business One
+            </span>
+
+            <h1>Gönderim Önizlemesi</h1>
+
+            <p>
+                {{ batch.title }} birleştirmesinin SAP satın alma talebi
+            </p>
+        </div>
+
+        <a
+            href="{% url 'requests_app:home' %}"
+            class="header-logo"
+            aria-label="Logosoft ana sayfa"
+        >
+            <img
+                src="{% static 'requests_app/img/logosoft-logo.png' %}"
+                alt="Logosoft"
+            >
+        </a>
+
+        <div class="header-actions">
+            <a
+                href="{% url 'requests_app:home' %}"
+                class="header-action-link"
+            >
+                Ana Sayfa
+            </a>
+
+            <a
+                href="{% url 'requests_app:consolidation_list' %}"
+                class="header-action-link"
+            >
+                Birleştirmeler
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<main class="page-container">
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message message-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <section class="page-toolbar">
+        <a
+            href="{% url 'requests_app:consolidation_detail' batch.pk %}"
+            class="back-link"
+        >
+            ← Birleştirme detayına dön
+        </a>
+
+        <span class="preview-badge">
+            Yalnızca önizleme
+        </span>
+    </section>
+
+    <section class="summary-grid">
+
+        <article class="summary-card">
+            <span class="summary-label">Birleştirme</span>
+            <strong class="summary-value">
+                #{{ batch.id }}
+            </strong>
+        </article>
+
+        <article class="summary-card">
+            <span class="summary-label">SAP satır sayısı</span>
+            <strong class="summary-value">
+                {{ line_count }}
+            </strong>
+        </article>
+
+        <article class="summary-card">
+            <span class="summary-label">Gerekli tarih</span>
+            <strong class="summary-value">
+                {{ required_date|date:"d.m.Y" }}
+            </strong>
+        </article>
+
+        <article class="summary-card">
+            <span class="summary-label">Hedef depo</span>
+            <strong class="summary-value">
+                IE_TEST
+            </strong>
+        </article>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="panel-heading">
+            <div>
+                <span class="panel-eyebrow">
+                    Belge ayarları
+                </span>
+
+                <h2>Gerekli tarihi belirle</h2>
+
+                <p>
+                    Tarihi değiştirerek SAP satın alma talebi önizlemesini
+                    yeniden oluşturabilirsin.
+                </p>
+            </div>
+        </div>
+
+        <form
+            method="get"
+            class="date-form"
+        >
+            <div class="form-group">
+                <label for="required_date">
+                    Gerekli tarih
+                </label>
+
+                <input
+                    type="date"
+                    id="required_date"
+                    name="required_date"
+                    class="date-input"
+                    value="{{ required_date|date:'Y-m-d' }}"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="button button-primary"
+            >
+                Önizlemeyi güncelle
+            </button>
+        </form>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="panel-heading">
+            <div>
+                <span class="panel-eyebrow">
+                    SAP DocumentLines
+                </span>
+
+                <h2>Gönderilecek ürünler</h2>
+
+                <p>
+                    Her satır SAP Business One satın alma talebinde
+                    bir ürün satırı olarak oluşturulacaktır.
+                </p>
+            </div>
+
+            <span class="panel-count">
+                {{ line_count }} ürün
+            </span>
+        </div>
+
+        <div class="table-container">
+            <table class="preview-table">
+                <thead>
+                    <tr>
+                        <th>SAP kalem kodu</th>
+                        <th>Ürün adı</th>
+                        <th>Miktar</th>
+                        <th>Birim</th>
+                        <th>Depo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for line in preview_lines %}
+                        <tr>
+                            <td class="item-code">
+                                {{ line.item_code }}
+                            </td>
+
+                            <td class="item-name">
+                                {{ line.item_name }}
+                            </td>
+
+                            <td class="quantity">
+                                {{ line.quantity }}
+                            </td>
+
+                            <td>
+                                <span class="unit-badge">
+                                    {{ line.unit }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="warehouse-badge">
+                                    {{ line.warehouse_code }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                SAP'ye gönderilecek ürün satırı bulunamadı.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if batch.status == "SENT_TO_SAP" or batch.sap_doc_entry %}
+
+            <div class="sap-result">
+                <strong>
+                    Bu birleştirme SAP Business One'a gönderildi.
+                </strong>
+
+                SAP belge numarası:
+                <b>{{ batch.sap_doc_num }}</b>
+
+                <br>
+
+                DocEntry:
+                <b>{{ batch.sap_doc_entry }}</b>
+
+                {% if batch.sap_sent_at %}
+                    <br>
+
+                    Gönderim zamanı:
+                    <b>{{ batch.sap_sent_at|date:"d.m.Y H:i" }}</b>
+                {% endif %}
+            </div>
+
+        {% else %}
+
+            <div class="warning-box">
+                <strong>Gönderim öncesi son kontrol</strong>
+
+                SAP kalem kodlarını, miktarları, gerekli tarihi ve
+                hedef depoyu kontrol et. Gönderim başarılı olduğunda
+                SAP Business One üzerinde gerçek bir satın alma talebi oluşacaktır.
+            </div>
+
+            <div class="send-area">
+
+                <div class="send-area-copy">
+                    <strong>SAP satın alma talebini oluştur</strong>
+
+                    <span>
+                        {{ line_count }} ürün satırı,
+                        {{ required_date|date:"d.m.Y" }} gerekli tarihi ve
+                        IE_TEST deposuyla gönderilecektir.
+                    </span>
+                </div>
+
+                <form
+                    method="post"
+                    action="{% url 'requests_app:consolidation_send_to_sap' batch.pk %}"
+                    onsubmit="return confirm(
+                        'Bu birleştirme SAP Business One sistemine gönderilecek. Devam edilsin mi?'
+                    );"
+                >
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="required_date"
+                        value="{{ required_date|date:'Y-m-d' }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="button button-success"
+                    >
+                        SAP'ye Gönder
+                    </button>
+                </form>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+</body>
+</html>
