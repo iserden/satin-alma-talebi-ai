@@ -1,298 +1,144 @@
-AI-Assisted Purchase Request Automation
+# AI-Assisted SAP Business One Purchase Request Automation
 
-AI-Assisted Purchase Request Automation is a Django-based web application developed to digitally process purchase request forms submitted by businesses, match the extracted items with the product catalog, consolidate approved requests, and transfer validated data to SAP Business One.
+> An AI-powered purchasing automation system that transforms manually completed request forms into structured, validated data and creates Purchase Requests in SAP Business One.
 
-The project uses artificial intelligence to support document reading and product matching processes and communicates with SAP Business One through the Service Layer API.
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Django](https://img.shields.io/badge/Django-5.2-green)
+![SAP Business One](https://img.shields.io/badge/SAP-Business%20One-0FAAFF)
+![Gemini](https://img.shields.io/badge/AI-Gemini%20API-orange)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![Status](https://img.shields.io/badge/Status-MVP%20%2F%20Demo-yellow)
 
-Key Features
+---
 
-Uploading purchase request forms in PDF and image formats
+## 🚀 Overview
 
-Reading form data with the Gemini API
+This project was developed to digitalize and automate a real-world purchasing process where purchase requests are submitted through manually completed forms.
 
-Automatically matching extracted products with the system product catalog
+The system combines **Artificial Intelligence, document processing, intelligent product matching, backend development, business process automation, and SAP Business One integration**.
 
-Displaying confidence scores for product matches
+### Workflow
 
-Allowing users to review and edit matches
+**Purchase Form → AI Document Analysis → Product Matching → User Validation → Request Consolidation → SAP Business One**
 
-Learning alternative product names from manual confirmations
+---
 
-Approving purchase requests
+## ✨ Key Features
 
-Consolidating multiple approved requests into a single purchase request
+- 📄 Upload purchase request forms in PDF and image formats
+- 🤖 Extract structured data using the **Google Gemini API**
+- 🔎 Automatically match extracted products with the internal product catalog
+- 📊 Calculate and display **confidence scores**
+- ✏️ Allow users to review and correct AI-generated matches
+- 🧠 Learn alternative product names from validated corrections
+- ✅ Approve individual purchase requests
+- 🔗 Consolidate multiple approved requests into a single request
+- ➕ Automatically calculate weekly product quantities
+- 📤 Export data as **Excel, CSV, and JSON**
+- 👁 Preview purchasing data before SAP submission
+- 🔄 Integrate with **SAP Business One Service Layer**
+- 🧾 Create real SAP Business One **Purchase Request** documents
+- 💾 Store SAP `DocEntry` and `DocNum` values
+- 🛡 Prevent duplicate SAP submissions
+- 🐳 Run the application using Docker
 
-Automatically calculating weekly product quantities
+---
 
-Generating Excel, CSV, and JSON exports
+## 🧠 AI-Powered Product Matching
 
-Previewing purchase request data before SAP transfer
+The application uses AI to extract information from uploaded purchase request forms.
 
-Creating real Purchase Requests in SAP Business One
+Extracted product names are automatically compared with the internal product catalog.
 
-Storing SAP DocEntry and DocNum values in the system
+The matching process supports:
 
-Preventing the same request from being submitted to SAP more than once
+- Exact product matching
+- Alternative product names
+- Fuzzy matching
+- Confidence scoring
+- Manual validation
+- Alias learning from user corrections
 
-Portable development environment with Docker
+This allows the system to correctly identify products even when users write names differently from their official SAP catalog names.
 
-Technologies Used
+---
 
-Backend
+## 🔄 System Architecture
 
-Python 3.12
+```mermaid
+flowchart TD
+    A[Purchase Request Form] --> B[Document Upload]
+    B --> C[Gemini AI Analysis]
+    C --> D[Structured Data Extraction]
+    D --> E[Product Catalog Matching]
+    E --> F[Confidence Scoring]
+    F --> G[User Review]
+    G --> H[Request Approval]
+    H --> I[Request Consolidation]
+    I --> J[SAP Preview]
+    J --> K[SAP Business One Service Layer]
+    K --> L[Purchase Request Created]
+```
 
-Django 5.2
+---
 
-SQLite
+## 💻 Tech Stack
 
-Django ORM
+| Area | Technologies |
+|---|---|
+| **Backend** | Python, Django, Django ORM |
+| **Artificial Intelligence** | Google Gemini API, Google GenAI SDK |
+| **Product Matching** | RapidFuzz |
+| **Database** | SQLite |
+| **SAP Integration** | SAP Business One, Service Layer, REST/OData API |
+| **Data Processing** | OpenPyXL, Pillow |
+| **Deployment** | Docker, Docker Compose |
+| **Version Control** | Git, GitHub |
 
-Artificial Intelligence
+---
 
-Google Gemini API
+## 🏢 SAP Business One Integration
 
-Google GenAI Python SDK
+The application communicates with **SAP Business One Service Layer** using REST/OData APIs.
 
-RapidFuzz
+The SAP integration includes:
 
-SAP Integration
+- Service Layer authentication
+- SAP-compatible payload generation
+- Purchase Request validation
+- Automatic Purchase Request creation
+- SAP response handling
+- `DocEntry` and `DocNum` storage
+- Duplicate submission protection
 
-SAP Business One
+Sensitive SAP credentials and connection details are managed using environment variables.
 
-SAP Business One Service Layer
+---
 
-REST / OData API
+## 🧩 Main Application Services
 
-Python Requests
+The application's business logic is separated into dedicated services.
 
-File Processing
+| Service | Responsibility |
+|---|---|
+| `gemini_service.py` | AI-based document analysis |
+| `product_matching_service.py` | Product catalog matching |
+| `alias_learning_service.py` | Alternative product name learning |
+| `approval_service.py` | Purchase request approval |
+| `consolidation_service.py` | Request consolidation |
+| `consolidation_export_service.py` | Excel, CSV and JSON export |
+| `sap_service_layer_client.py` | SAP Service Layer communication |
+| `sap_purchase_request_builder.py` | SAP payload generation |
+| `sap_purchase_request_service.py` | Purchase Request creation and SAP response management |
 
-Pillow
+---
 
-OpenPyXL
+## 📁 Project Structure
 
-Deployment / Development
-
-Docker
-
-Docker Compose
-
-Git
-
-GitHub
-
-System Workflow
-
-Purchase Request Form
-        ↓
-Form Upload
-        ↓
-Document Analysis with Gemini
-        ↓
-Product Data Extraction
-        ↓
-Product Catalog Matching
-        ↓
-User Review
-        ↓
-Request Approval
-        ↓
-Consolidation of Multiple Requests
-        ↓
-SAP Preview
-        ↓
-SAP Business One Service Layer
-        ↓
-Purchase Request
-
-Installation
-
-This project is designed to run using Docker.
-
-The following software is sufficient on the machine where the project will be run:
-
-Git
-
-Docker Desktop
-
-There is no need to install Python or create a virtual environment separately.
-
-1. Clone the Repository
-
-Make sure you have access to the private GitHub repository.
-
-git clone <repository-url>
-
-Then navigate to the project directory:
-
-cd satin-alma-talebi-ai
-
-2. Create the Environment File
-
-The project includes an example environment file:
-
-.env.example
-
-Create a copy of this file and rename it to:
-
-.env
-
-PowerShell:
-
-Copy-Item .env.example .env
-
-Linux/macOS:
-
-cp .env.example .env
-
-3. Configure .env
-
-Fill in the required fields in the .env file.
-
-Example:
-
-DJANGO_SECRET_KEY=your-secret-key
-DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
-
-GEMINI_API_KEY=your-gemini-api-key
-GEMINI_MODEL=your-gemini-model
-
-SAP_BASE_URL=https://mersapvm01:50000/b1s/v1
-SAP_COMPANY_DB=your-company-database
-SAP_USERNAME=your-sap-username
-SAP_PASSWORD=your-sap-password
-SAP_VERIFY_SSL=false
-SAP_TIMEOUT=30
-SAP_DEFAULT_WAREHOUSE=your-warehouse-code
-
-Real usernames, passwords, and API keys must not be stored in the repository.
-
-Running with Docker
-
-Docker Desktop must be running.
-
-From the project directory, run:
-
-docker compose up --build
-
-The first run may take several minutes because Docker images and Python packages need to be downloaded.
-
-After a successful startup, the terminal should display output similar to:
-
-Starting development server at http://0.0.0.0:8001/
-
-The application can then be opened at:
-
-http://127.0.0.1:8001/
-
-Database Migration
-
-After the initial setup, run the migrations:
-
-docker compose exec web python manage.py migrate
-
-To check migration status:
-
-docker compose exec web python manage.py showmigrations
-
-Creating a Django Admin User
-
-To create an admin user during the initial setup, run:
-
-docker compose exec web python manage.py createsuperuser
-
-The command will ask for:
-
-Username
-Email
-Password
-
-The admin panel is available at:
-
-http://127.0.0.1:8001/admin/
-
-SAP Business One Connection
-
-The application communicates with SAP Business One through the Service Layer.
-
-The SAP connection is configured using the following environment variables in .env:
-
-SAP_BASE_URL=
-SAP_COMPANY_DB=
-SAP_USERNAME=
-SAP_PASSWORD=
-SAP_VERIFY_SSL=
-SAP_TIMEOUT=
-SAP_DEFAULT_WAREHOUSE=
-
-If the Service Layer is accessed through a hostname in the current company environment, the required hostname mapping must be defined in Docker Compose.
-
-Example:
-
-extra_hosts:
-  - "mersapvm01:<SAP-SERVER-IP>"
-
-Because the SAP server address may vary between environments, the required IP address should be obtained from the system administrator.
-
-Testing the SAP Connection
-
-To test SAP login from inside the container:
-
-docker compose exec web python test_sap_login.py
-
-A successful connection should produce output similar to:
-
-HTTP status code: 200
-RESULT: SAP Service Layer login successful.
-
-Gemini API Connection
-
-The Gemini API key is read from .env:
-
-GEMINI_API_KEY=
-
-The API key must never be hard-coded directly into the source code.
-
-Docker Commands
-
-Start the application:
-
-docker compose up
-
-Rebuild the image:
-
-docker compose up --build
-
-Run in the background:
-
-docker compose up -d
-
-Stop the containers:
-
-docker compose down
-
-View running containers:
-
-docker compose ps
-
-View logs:
-
-docker compose logs -f web
-
-Run a Django command inside the container:
-
-docker compose exec web python manage.py <command>
-
-Project Structure
-
+```text
 satin-alma-talebi-ai/
 │
 ├── config/
-│   ├── settings.py
-│   ├── urls.py
-│   ├── asgi.py
-│   └── wsgi.py
 │
 ├── requests_app/
 │   ├── migrations/
@@ -309,152 +155,121 @@ satin-alma-talebi-ai/
 │
 ├── Dockerfile
 ├── compose.yaml
-├── .dockerignore
 ├── .env.example
 ├── .gitignore
 ├── requirements.txt
 ├── test_sap_login.py
 └── manage.py
+```
 
-Core Services
+---
 
-The main business logic of the application is located under requests_app/services/.
+## 🐳 Running the Project
 
-Key services include:
+### Clone the repository
 
-gemini_service.py
+```bash
+git clone <repository-url>
+cd satin-alma-talebi-ai
+```
 
-Handles form analysis through the Gemini API.
+### Create the environment file
 
-product_matching_service.py
+```bash
+cp .env.example .env
+```
 
-Matches products extracted by AI with the product catalog.
+For PowerShell:
 
-alias_learning_service.py
+```powershell
+Copy-Item .env.example .env
+```
 
-Creates alternative product names from manually confirmed product matches.
+### Start the application
 
-approval_service.py
-
-Manages purchase request approval processes.
-
-consolidation_service.py
-
-Consolidates multiple purchase requests.
-
-consolidation_export_service.py
-
-Generates Excel, CSV, and JSON exports.
-
-sap_service_layer_client.py
-
-Manages communication with SAP Business One Service Layer.
-
-sap_purchase_request_builder.py
-
-Builds the Purchase Request payload to be sent to SAP.
-
-sap_purchase_request_service.py
-
-Handles sending the Purchase Request to SAP Business One and storing the returned SAP document information.
-
-Data Storage
-
-SQLite is used in the development and demo environment.
-
-db.sqlite3
-
-This file is not committed to the Git repository.
-
-Docker Compose mounts this file to the host machine as a volume so that existing data can persist even if the container is removed.
-
-Uploaded documents are stored in:
-
-media/
-
-This directory is also excluded from the repository.
-
-Pulling New Updates
-
-If new changes have been added to the repository, run:
-
-git pull origin main
-
-Then rebuild the Docker image:
-
+```bash
 docker compose up --build
+```
 
-If there are new migrations, run:
+The application will be available at:
 
+```text
+http://127.0.0.1:8001/
+```
+
+### Run database migrations
+
+```bash
 docker compose exec web python manage.py migrate
+```
 
-Development Workflow
+### Create an admin user
 
-When developing a new feature, it is recommended to create a new branch instead of working directly on main.
+```bash
+docker compose exec web python manage.py createsuperuser
+```
 
-Example:
+---
 
-git checkout -b feature/new-feature
+## 🔐 Security
 
-After making changes:
+Sensitive information is never intended to be stored directly in the source code.
 
-git add .
-git commit -m "Add: new feature"
-git push -u origin feature/new-feature
+The following files should not be committed:
 
-A Pull Request can then be created on GitHub.
-
-Security
-
-The following files and information must never be committed to the Git repository:
-
+```text
 .env
 db.sqlite3
 media/
 .venv/
+```
 
-The following information must especially never be hard-coded directly into the source code:
+Sensitive values are managed through environment variables, including:
 
-Gemini API Key
+- Gemini API keys
+- SAP usernames and passwords
+- Django secret keys
+- Database credentials
+- Internal infrastructure information
 
-SAP username and password
+---
 
-Django Secret Key
+## ✅ Project Status
 
-Production database credentials
+The current version is a working **MVP / internal demo prototype**.
 
-Internal company access information
+### Completed
 
-These values should be managed through environment variables.
+- ✅ Document upload
+- ✅ Gemini AI document analysis
+- ✅ Product catalog management
+- ✅ AI-assisted product matching
+- ✅ Confidence scoring
+- ✅ Manual validation
+- ✅ Alternative name learning
+- ✅ Request approval workflow
+- ✅ Request consolidation
+- ✅ Excel / CSV / JSON export
+- ✅ SAP Business One Service Layer integration
+- ✅ SAP Purchase Request creation
+- ✅ SAP `DocEntry` / `DocNum` storage
+- ✅ Duplicate submission protection
+- ✅ Dockerized environment
 
-Project Status
+---
 
-The current version is a working MVP / internal demo version.
+## 🎯 What This Project Demonstrates
 
-Completed core functionality:
+This project demonstrates hands-on experience in:
 
-Form upload                         ✅
-Gemini document analysis           ✅
-Product catalog                    ✅
-AI product matching                ✅
-Manual review                      ✅
-Request approval                   ✅
-Request consolidation              ✅
-Excel / CSV / JSON export          ✅
-SAP Business One Service Layer     ✅
-SAP Purchase Request creation      ✅
-SAP DocEntry / DocNum storage      ✅
-Duplicate submission protection    ✅
-Docker                              ✅
+**Artificial Intelligence · SAP Business One · ERP Integration · Business Process Automation · Python · Django · REST APIs · Document Processing · Intelligent Product Matching · Database Design · Docker · Git**
 
-Before production use, it is recommended to configure a production web server, centralized database, SSL, user authorization, logging, backup, and deployment infrastructure according to enterprise standards.
+It also demonstrates the ability to transform a real business requirement into an **end-to-end working technical prototype combining AI, backend development and enterprise system integration**.
 
-Repository Access
+---
 
-This repository is currently kept private.
+## ⚠️ Disclaimer
 
-Users who will work on the project should be added to the repository as collaborators or through the relevant organization/team.
+This repository is shared as a **portfolio and technical demonstration project**.
 
-Note
-
-This project was developed for internal development, evaluation, and demo purposes. SAP Business One credentials, API keys, and company data must remain outside the repository.
+Real company data, SAP credentials, API keys, customer information and confidential infrastructure details are not included in the repository.
