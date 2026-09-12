@@ -1,161 +1,157 @@
-# AI Destekli Satın Alma Talebi Otomasyonu
+AI-Assisted Purchase Request Automation
 
-Yapay zekâ destekli satın alma talebi otomasyonu; işletmelerden gelen satın alma talep formlarının dijital olarak işlenmesi, ürün kataloğuyla eşleştirilmesi, taleplerin birleştirilmesi ve onaylanan verilerin **SAP Business One** sistemine aktarılması amacıyla geliştirilmiş Django tabanlı bir web uygulamasıdır.
+AI-Assisted Purchase Request Automation is a Django-based web application developed to digitally process purchase request forms submitted by businesses, match the extracted items with the product catalog, consolidate approved requests, and transfer validated data to SAP Business One.
 
-Proje, belge okuma ve ürün eşleştirme süreçlerinde yapay zekâ desteği kullanır ve SAP Business One ile **Service Layer API** üzerinden haberleşir.
+The project uses artificial intelligence to support document reading and product matching processes and communicates with SAP Business One through the Service Layer API.
 
----
+Key Features
 
-## Projenin Temel Özellikleri
+Uploading purchase request forms in PDF and image formats
 
-* PDF ve görsel formatındaki satın alma talep formlarının yüklenmesi
-* Gemini API ile form içerisindeki verilerin okunması
-* Ürünlerin sistemdeki ürün kataloğuyla otomatik eşleştirilmesi
-* Eşleşmeler için güven skorlarının gösterilmesi
-* Kullanıcı tarafından eşleşmelerin kontrol edilmesi ve düzenlenmesi
-* Ürün alternatif isimlerinin öğrenilmesi
-* Satın alma taleplerinin onaylanması
-* Birden fazla onaylı talebin tek bir satın alma talebinde birleştirilmesi
-* Haftalık ürün miktarlarının otomatik olarak toplanması
-* Excel, CSV ve JSON çıktılarının oluşturulması
-* SAP aktarımı öncesinde satın alma talebi önizlemesi
-* SAP Business One üzerinde gerçek Purchase Request oluşturulması
-* SAP `DocEntry` ve `DocNum` bilgilerinin sistemde saklanması
-* Aynı talebin SAP'ye ikinci kez gönderilmesinin engellenmesi
-* Docker ile taşınabilir çalışma ortamı
+Reading form data with the Gemini API
 
----
+Automatically matching extracted products with the system product catalog
 
-# Kullanılan Teknolojiler
+Displaying confidence scores for product matches
 
-### Backend
+Allowing users to review and edit matches
 
-* Python 3.12
-* Django 5.2
-* SQLite
-* Django ORM
+Learning alternative product names from manual confirmations
 
-### Artificial Intelligence
+Approving purchase requests
 
-* Google Gemini API
-* Google GenAI Python SDK
-* RapidFuzz
+Consolidating multiple approved requests into a single purchase request
 
-### SAP Integration
+Automatically calculating weekly product quantities
 
-* SAP Business One
-* SAP Business One Service Layer
-* REST / OData API
-* Python Requests
+Generating Excel, CSV, and JSON exports
 
-### Dosya İşleme
+Previewing purchase request data before SAP transfer
 
-* Pillow
-* OpenPyXL
+Creating real Purchase Requests in SAP Business One
 
-### Deployment / Development
+Storing SAP DocEntry and DocNum values in the system
 
-* Docker
-* Docker Compose
-* Git
-* GitHub
+Preventing the same request from being submitted to SAP more than once
 
----
+Portable development environment with Docker
 
-# Sistem Akışı
+Technologies Used
 
-```text
-Satın Alma Talep Formu
+Backend
+
+Python 3.12
+
+Django 5.2
+
+SQLite
+
+Django ORM
+
+Artificial Intelligence
+
+Google Gemini API
+
+Google GenAI Python SDK
+
+RapidFuzz
+
+SAP Integration
+
+SAP Business One
+
+SAP Business One Service Layer
+
+REST / OData API
+
+Python Requests
+
+File Processing
+
+Pillow
+
+OpenPyXL
+
+Deployment / Development
+
+Docker
+
+Docker Compose
+
+Git
+
+GitHub
+
+System Workflow
+
+Purchase Request Form
         ↓
-Form Yükleme
+Form Upload
         ↓
-Gemini ile Belge Analizi
+Document Analysis with Gemini
         ↓
-Ürün Bilgilerinin Çıkarılması
+Product Data Extraction
         ↓
-Ürün Kataloğu ile Eşleştirme
+Product Catalog Matching
         ↓
-Kullanıcı Kontrolü
+User Review
         ↓
-Talep Onayı
+Request Approval
         ↓
-Birden Fazla Talebin Birleştirilmesi
+Consolidation of Multiple Requests
         ↓
-SAP Önizleme
+SAP Preview
         ↓
 SAP Business One Service Layer
         ↓
 Purchase Request
-```
 
----
+Installation
 
-# Kurulum
+This project is designed to run using Docker.
 
-Bu proje Docker kullanılarak çalıştırılmak üzere hazırlanmıştır.
+The following software is sufficient on the machine where the project will be run:
 
-Projeyi çalıştıracak bilgisayarda aşağıdaki programların kurulu olması yeterlidir:
+Git
 
-* Git
-* Docker Desktop
+Docker Desktop
 
-Python veya sanal ortam kurulmasına gerek yoktur.
+There is no need to install Python or create a virtual environment separately.
 
----
+1. Clone the Repository
 
-## 1. Repository'yi Klonlayın
+Make sure you have access to the private GitHub repository.
 
-Private GitHub repository erişiminizin bulunduğundan emin olun.
-
-```bash
 git clone <repository-url>
-```
 
-Ardından proje klasörüne geçin:
+Then navigate to the project directory:
 
-```bash
 cd satin-alma-talebi-ai
-```
 
----
+2. Create the Environment File
 
-## 2. Environment Dosyasını Oluşturun
+The project includes an example environment file:
 
-Projede örnek environment dosyası bulunmaktadır:
-
-```text
 .env.example
-```
 
-Bu dosyanın bir kopyasını oluşturup adını:
+Create a copy of this file and rename it to:
 
-```text
 .env
-```
-
-olarak değiştirin.
 
 PowerShell:
 
-```powershell
 Copy-Item .env.example .env
-```
 
 Linux/macOS:
 
-```bash
 cp .env.example .env
-```
 
----
+3. Configure .env
 
-## 3. `.env` Ayarlarını Yapılandırın
+Fill in the required fields in the .env file.
 
-`.env` dosyasındaki gerekli alanları doldurun.
+Example:
 
-Örnek:
-
-```env
 DJANGO_SECRET_KEY=your-secret-key
 DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 
@@ -169,93 +165,59 @@ SAP_PASSWORD=your-sap-password
 SAP_VERIFY_SSL=false
 SAP_TIMEOUT=30
 SAP_DEFAULT_WAREHOUSE=your-warehouse-code
-```
 
-> Gerçek kullanıcı adı, şifre ve API anahtarları repository içerisinde tutulmamalıdır.
+Real usernames, passwords, and API keys must not be stored in the repository.
 
----
+Running with Docker
 
-# Docker ile Çalıştırma
+Docker Desktop must be running.
 
-Docker Desktop çalışır durumda olmalıdır.
+From the project directory, run:
 
-Proje klasöründe:
-
-```bash
 docker compose up --build
-```
 
-komutunu çalıştırın.
+The first run may take several minutes because Docker images and Python packages need to be downloaded.
 
-İlk çalıştırmada gerekli Docker image'ları ve Python paketleri indirileceği için işlem birkaç dakika sürebilir.
+After a successful startup, the terminal should display output similar to:
 
-Başarılı çalıştırma sonrasında terminalde aşağıdakine benzer bir çıktı görülür:
-
-```text
 Starting development server at http://0.0.0.0:8001/
-```
 
-Uygulama:
+The application can then be opened at:
 
-```text
 http://127.0.0.1:8001/
-```
 
-adresinden açılabilir.
+Database Migration
 
----
+After the initial setup, run the migrations:
 
-# Database Migration
-
-İlk kurulumdan sonra migration işlemlerini çalıştırın:
-
-```bash
 docker compose exec web python manage.py migrate
-```
 
-Migration durumunu kontrol etmek için:
+To check migration status:
 
-```bash
 docker compose exec web python manage.py showmigrations
-```
 
----
+Creating a Django Admin User
 
-# Django Admin Kullanıcısı Oluşturma
+To create an admin user during the initial setup, run:
 
-İlk kurulumda admin kullanıcısı oluşturmak için:
-
-```bash
 docker compose exec web python manage.py createsuperuser
-```
 
-Komut sizden:
+The command will ask for:
 
-```text
 Username
 Email
 Password
-```
 
-bilgilerini isteyecektir.
+The admin panel is available at:
 
-Admin paneli:
-
-```text
 http://127.0.0.1:8001/admin/
-```
 
-adresinden açılabilir.
+SAP Business One Connection
 
----
+The application communicates with SAP Business One through the Service Layer.
 
-# SAP Business One Bağlantısı
+The SAP connection is configured using the following environment variables in .env:
 
-Uygulama SAP Business One ile **Service Layer** üzerinden haberleşmektedir.
-
-SAP bağlantısı `.env` içerisindeki aşağıdaki değişkenlerle yapılandırılır:
-
-```env
 SAP_BASE_URL=
 SAP_COMPANY_DB=
 SAP_USERNAME=
@@ -263,101 +225,67 @@ SAP_PASSWORD=
 SAP_VERIFY_SSL=
 SAP_TIMEOUT=
 SAP_DEFAULT_WAREHOUSE=
-```
 
-Mevcut şirket ortamında Service Layer hostname'i kullanılıyorsa Docker Compose içerisinde gerekli hostname yönlendirmesi tanımlanmalıdır.
+If the Service Layer is accessed through a hostname in the current company environment, the required hostname mapping must be defined in Docker Compose.
 
-Örnek:
+Example:
 
-```yaml
 extra_hosts:
   - "mersapvm01:<SAP-SERVER-IP>"
-```
 
-SAP sunucu adresi ortamdan ortama değişebileceği için gerekli IP bilgisi sistem yöneticisinden alınmalıdır.
+Because the SAP server address may vary between environments, the required IP address should be obtained from the system administrator.
 
----
+Testing the SAP Connection
 
-## SAP Bağlantısını Test Etme
+To test SAP login from inside the container:
 
-Container içerisinden SAP login testi:
-
-```bash
 docker compose exec web python test_sap_login.py
-```
 
-Başarılı bağlantıda:
+A successful connection should produce output similar to:
 
-```text
-HTTP durum kodu: 200
-SONUÇ: SAP Service Layer girişi başarılı.
-```
+HTTP status code: 200
+RESULT: SAP Service Layer login successful.
 
-çıktısı görülmelidir.
+Gemini API Connection
 
----
+The Gemini API key is read from .env:
 
-# Gemini API Bağlantısı
-
-Gemini API anahtarı `.env` içerisinden okunmaktadır:
-
-```env
 GEMINI_API_KEY=
-```
 
-API anahtarı kesinlikle doğrudan kaynak kod içerisine yazılmamalıdır.
+The API key must never be hard-coded directly into the source code.
 
----
+Docker Commands
 
-# Docker Komutları
+Start the application:
 
-Uygulamayı başlatmak:
-
-```bash
 docker compose up
-```
 
-Image'ı tekrar oluşturmak:
+Rebuild the image:
 
-```bash
 docker compose up --build
-```
 
-Arka planda çalıştırmak:
+Run in the background:
 
-```bash
 docker compose up -d
-```
 
-Container'ları durdurmak:
+Stop the containers:
 
-```bash
 docker compose down
-```
 
-Çalışan container'ları görmek:
+View running containers:
 
-```bash
 docker compose ps
-```
 
-Logları görüntülemek:
+View logs:
 
-```bash
 docker compose logs -f web
-```
 
-Container içerisinde Django komutu çalıştırmak:
+Run a Django command inside the container:
 
-```bash
 docker compose exec web python manage.py <command>
-```
 
----
+Project Structure
 
-# Proje Yapısı
-
-```text
 satin-alma-talebi-ai/
 │
 ├── config/
@@ -387,197 +315,146 @@ satin-alma-talebi-ai/
 ├── requirements.txt
 ├── test_sap_login.py
 └── manage.py
-```
 
----
+Core Services
 
-# Temel Servisler
+The main business logic of the application is located under requests_app/services/.
 
-`requests_app/services/` altında uygulamanın ana iş mantıkları bulunmaktadır.
+Key services include:
 
-Başlıca servisler:
-
-```text
 gemini_service.py
-```
 
-Gemini API üzerinden form analiz işlemlerini gerçekleştirir.
+Handles form analysis through the Gemini API.
 
-```text
 product_matching_service.py
-```
 
-AI tarafından okunan ürünleri ürün kataloğuyla eşleştirir.
+Matches products extracted by AI with the product catalog.
 
-```text
 alias_learning_service.py
-```
 
-Manuel olarak doğrulanan ürün isimlerinden alternatif ürün isimleri oluşturur.
+Creates alternative product names from manually confirmed product matches.
 
-```text
 approval_service.py
-```
 
-Satın alma talebi onay süreçlerini yönetir.
+Manages purchase request approval processes.
 
-```text
 consolidation_service.py
-```
 
-Birden fazla satın alma talebini birleştirir.
+Consolidates multiple purchase requests.
 
-```text
 consolidation_export_service.py
-```
 
-Excel, CSV ve JSON çıktılarını oluşturur.
+Generates Excel, CSV, and JSON exports.
 
-```text
 sap_service_layer_client.py
-```
 
-SAP Business One Service Layer iletişimini yönetir.
+Manages communication with SAP Business One Service Layer.
 
-```text
 sap_purchase_request_builder.py
-```
 
-SAP'ye gönderilecek Purchase Request verisini oluşturur.
+Builds the Purchase Request payload to be sent to SAP.
 
-```text
 sap_purchase_request_service.py
-```
 
-Purchase Request'in SAP Business One'a gönderilmesini ve SAP belge bilgilerinin saklanmasını yönetir.
+Handles sending the Purchase Request to SAP Business One and storing the returned SAP document information.
 
----
+Data Storage
 
-# Verilerin Saklanması
+SQLite is used in the development and demo environment.
 
-Geliştirme ve demo ortamında SQLite kullanılmaktadır.
-
-```text
 db.sqlite3
-```
 
-dosyası Git repository içerisine gönderilmez.
+This file is not committed to the Git repository.
 
-Docker Compose ile bu dosya host bilgisayara volume olarak bağlanmıştır. Böylece container silinse bile mevcut veriler korunabilir.
+Docker Compose mounts this file to the host machine as a volume so that existing data can persist even if the container is removed.
 
-Yüklenen belgeler:
+Uploaded documents are stored in:
 
-```text
 media/
-```
 
-klasöründe tutulur ve bu klasör de repository dışında bırakılmıştır.
+This directory is also excluded from the repository.
 
----
+Pulling New Updates
 
-# Yeni Güncellemeleri Alma
+If new changes have been added to the repository, run:
 
-Repository'de yeni bir geliştirme yapıldıysa:
-
-```bash
 git pull origin main
-```
 
-ardından Docker image'ını tekrar oluşturun:
+Then rebuild the Docker image:
 
-```bash
 docker compose up --build
-```
 
-Yeni migration bulunuyorsa:
+If there are new migrations, run:
 
-```bash
 docker compose exec web python manage.py migrate
-```
 
-komutunu çalıştırın.
+Development Workflow
 
----
+When developing a new feature, it is recommended to create a new branch instead of working directly on main.
 
-# Geliştirme Yapmak
+Example:
 
-Yeni bir geliştirme yapılacaksa doğrudan `main` branch üzerinde çalışmak yerine yeni branch oluşturulması önerilir.
+git checkout -b feature/new-feature
 
-Örnek:
+After making changes:
 
-```bash
-git checkout -b feature/yeni-ozellik
-```
-
-Değişikliklerden sonra:
-
-```bash
 git add .
-git commit -m "Add: yeni özellik"
-git push -u origin feature/yeni-ozellik
-```
+git commit -m "Add: new feature"
+git push -u origin feature/new-feature
 
-Ardından GitHub üzerinden Pull Request oluşturulabilir.
+A Pull Request can then be created on GitHub.
 
----
+Security
 
-# Güvenlik
+The following files and information must never be committed to the Git repository:
 
-Aşağıdaki dosya ve bilgiler Git repository içerisine kesinlikle gönderilmemelidir:
-
-```text
 .env
 db.sqlite3
 media/
 .venv/
-```
 
-Özellikle şu bilgiler kaynak kod içerisine doğrudan yazılmamalıdır:
+The following information must especially never be hard-coded directly into the source code:
 
-* Gemini API Key
-* SAP kullanıcı adı ve şifresi
-* Django Secret Key
-* Production veritabanı bilgileri
-* Şirket içi erişim bilgileri
+Gemini API Key
 
-Bu bilgiler environment variables üzerinden yönetilmelidir.
+SAP username and password
 
----
+Django Secret Key
 
-# Proje Durumu
+Production database credentials
 
-Mevcut sürüm çalışan bir **MVP / şirket içi demo sürümüdür**.
+Internal company access information
 
-Tamamlanan ana fonksiyonlar:
+These values should be managed through environment variables.
 
-```text
-Form yükleme                         ✅
-Gemini belge analizi                 ✅
-Ürün kataloğu                        ✅
-AI ürün eşleştirme                   ✅
-Manuel kontrol                       ✅
-Talep onayı                          ✅
-Talep birleştirme                    ✅
-Excel / CSV / JSON export            ✅
-SAP Business One Service Layer       ✅
-SAP Purchase Request oluşturma       ✅
-SAP DocEntry / DocNum kaydı          ✅
-Tekrar gönderim koruması             ✅
-Docker                               ✅
-```
+Project Status
 
-Production kullanımı öncesinde ayrıca production web server, merkezi veritabanı, SSL, kullanıcı yetkilendirmeleri, loglama, yedekleme ve deployment altyapısının kurumsal standartlara göre yapılandırılması önerilir.
+The current version is a working MVP / internal demo version.
 
----
+Completed core functionality:
 
-# Repository Erişimi
+Form upload                         ✅
+Gemini document analysis           ✅
+Product catalog                    ✅
+AI product matching                ✅
+Manual review                      ✅
+Request approval                   ✅
+Request consolidation              ✅
+Excel / CSV / JSON export          ✅
+SAP Business One Service Layer     ✅
+SAP Purchase Request creation      ✅
+SAP DocEntry / DocNum storage      ✅
+Duplicate submission protection    ✅
+Docker                              ✅
 
-Bu repository **private** olarak tutulmaktadır.
+Before production use, it is recommended to configure a production web server, centralized database, SSL, user authorization, logging, backup, and deployment infrastructure according to enterprise standards.
 
-Projede çalışacak kullanıcıların GitHub hesapları repository'ye collaborator veya ilgili organizasyon/team üzerinden eklenmelidir.
+Repository Access
 
----
+This repository is currently kept private.
 
-## Not
+Users who will work on the project should be added to the repository as collaborators or through the relevant organization/team.
 
-Bu proje şirket içi geliştirme, değerlendirme ve demo amaçlı hazırlanmıştır. SAP Business One bağlantı bilgileri, API anahtarları ve şirket verileri repository dışında tutulmalıdır.
+Note
+
+This project was developed for internal development, evaluation, and demo purposes. SAP Business One credentials, API keys, and company data must remain outside the repository.
